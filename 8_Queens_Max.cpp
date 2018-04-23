@@ -4,8 +4,8 @@ using namespace std;
 
 int board[20][20] = 
 	{ 	
+		{0, 0, 0, 0, 0, 1, 0, 0},
 		{0, 0, 0, 1, 0, 0, 0, 0},
-		{0, 1, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 1, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0, 0, 0},
@@ -30,9 +30,9 @@ int countQueens()
 	}
 }
 
-void print()
+void printSolution()
 {
-	cout<<"--> Giap phap sap xep con hau:\n"<<endl;
+	cout<<"--> Giai phap sap xep con hau:\n"<<endl;
 	
 	cout<<"+ So con hau da duoc xep: "<<count<<endl;
 	cout<<endl;
@@ -64,21 +64,21 @@ void print()
 
 
 // kiem tra xem co the dat con hau tai vi tri board[row][col]
-bool isSafe(int board[20][20], int row, int col)
+bool isSafe(int b[20][20], int row, int col)
 {
 	int i, j;
 
 	// kiem tra phia ben trai hang ngang
 	for (j = 0; j < col; j++)
 	{
-		if (board[row][j] == 1)
+		if (b[row][j] == 1)
 			return false;
 	}
 	
 	// kiem tra phia ben phai hang ngang
 	for (j = col + 1; j < n; j++)
 	{
-		if (board[row][j] == 1)
+		if (b[row][j] == 1)
 			return false;
 	}
 	
@@ -86,14 +86,14 @@ bool isSafe(int board[20][20], int row, int col)
 	// kiem tra phia ben trai hang doc
 	for (i = 0; i < row; i++)
 	{
-		if (board[i][col] == 1)
+		if (b[i][col] == 1)
 			return false;
 	}
 	
 	// kiem tra phia ben phai hang doc
 	for (i = row + 1; i < n; i++)
 	{
-		if (board[i][col] == 1)
+		if (b[i][col] == 1)
 			return false;
 	}
 	
@@ -101,14 +101,14 @@ bool isSafe(int board[20][20], int row, int col)
 	// kiem tra duong cheo duoi phia ben trai
 	for (i = row, j = col; i < n && j >= 0; i++, j--)
 	{
-		if (board[i][j] == 1)
+		if (b[i][j] == 1)
 			return false;
 	}
 	
 	// kiem tra duong cheo tren phia ben trai
 	for (i = row, j = col; i >= 0 && j >= 0; i--, j--)
 	{
-		if (board[i][j] == 1)
+		if (b[i][j] == 1)
 			return false;
 	}
 	
@@ -116,14 +116,14 @@ bool isSafe(int board[20][20], int row, int col)
 	// kiem tra duong cheo duoi phia ben phai
 	for (i = row, j = col; i < n && j < n; i++, j++)
 	{
-		if (board[i][j] == 1)
+		if (b[i][j] == 1)
 			return false;
 	}
 
 	// kiem tra duong cheo tren phia ben phai
 	for (i = row, j = col; i >= 0 && j < n; i--, j++)
 	{
-		if (board[i][j] == 1)
+		if (b[i][j] == 1)
 			return false;
 	}
 	
@@ -345,13 +345,13 @@ bool allQueens(int b[20][20], int row, int col)
 					// chay de qui de dat cac con hau con lai
 					if ( allQueens(b, row + 1, 0) == true )
 					{
-						b[row][k] = 0; 
+						b[row][k] = 0; 	// Quay lui neu ham = true
 						return true;
 					}
 
 					// neu khong dat duoc con hau nao neu dat con hau tai vi tri hien tai
 					// => huy dat con hau
-					b[row][k] = 0; 		// Quay lui
+					b[row][k] = 0; 		// Quay lui neu ham = false
 				}
 			}
 		}
@@ -473,7 +473,7 @@ void solve(int n)
 	placeQueens();
 	countQueens();
 	
-	print();
+	printSolution();
 	if(count < n)
 		cout<<"\n--> FAIL! Khong co giai phap dat du 8 con hau !\n";
 	else
